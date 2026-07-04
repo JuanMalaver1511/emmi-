@@ -14,6 +14,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState<Product | null>(null);
   const [related, setRelated] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -28,6 +29,7 @@ export default function ProductDetail() {
     api.products.get(slug).then(d => {
       setProduct(d.product);
       setRelated(d.related);
+      setSelectedImage(0);
       setSelectedSize(d.product.sizes?.[0] || '');
       setSelectedColor(d.product.colors?.[0] || '');
       setLoading(false);
@@ -79,12 +81,27 @@ export default function ProductDetail() {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <div className="aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden relative">
-          <img src={product.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600'} alt={product.name} className="w-full h-full object-cover" />
-          {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
-            <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary-600 text-white text-sm font-semibold">
-              -{Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)}%
-            </span>
+        <div className="space-y-3">
+          <div className="aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden relative">
+            <img src={product.images[selectedImage] || product.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600'} alt={product.name} className="w-full h-full object-cover" />
+            {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
+              <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary-600 text-white text-sm font-semibold">
+                -{Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)}%
+              </span>
+            )}
+          </div>
+          {product.images.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {product.images.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedImage(i)}
+                  className={`w-16 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-colors ${selectedImage === i ? 'border-primary-600' : 'border-transparent hover:border-gray-300'}`}
+                >
+                  <img src={img} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 

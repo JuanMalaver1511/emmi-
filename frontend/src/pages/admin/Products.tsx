@@ -18,8 +18,12 @@ export default function AdminProducts() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('¿Eliminar producto?')) return;
-    await api.admin.deleteProduct(id);
-    setProducts(prev => prev.filter(p => p.id !== id));
+    try {
+      await api.admin.deleteProduct(id);
+      setProducts(prev => prev.filter(p => p.id !== id));
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (

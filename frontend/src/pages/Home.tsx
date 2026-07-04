@@ -22,7 +22,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 via-gray-900/40 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36 w-full">
           <div className="max-w-xl">
-            <span className="text-xs font-medium text-primary-400 uppercase tracking-[0.2em]">Nueva colección 2024</span>
             <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]">
               Moda que<br />
               <span className="text-primary-400">define tu estilo</span>

@@ -101,11 +101,17 @@ router.put('/products/:id', async (req: AuthRequest, res: Response) => {
 
 router.delete('/products/:id', async (req: AuthRequest, res: Response) => {
   try {
-    await prisma.product.delete({ where: { id: String(req.params.id) } });
+    const id = String(req.params.id);
+    await prisma.$transaction([
+      prisma.cartItem.deleteMany({ where: { productId: id } }),
+      prisma.review.deleteMany({ where: { productId: id } }),
+      prisma.orderItem.deleteMany({ where: { productId: id } }),
+      prisma.product.delete({ where: { id } }),
+    ]);
     res.json({ message: 'Product deleted' });
   } catch (err: any) {
     if (err.code === 'P2025') return res.status(404).json({ error: 'Product not found' });
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'No se pudo eliminar el producto. Verifica que no tenga pedidos asociados.' });
   }
 });
 

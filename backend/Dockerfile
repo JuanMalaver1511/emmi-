@@ -11,4 +11,4 @@ RUN npm run build
 
 EXPOSE 4000
 
-CMD npx prisma db push --accept-data-loss && npm start
+CMD npx prisma db push --accept-data-loss && npm run prisma:seed && npm start

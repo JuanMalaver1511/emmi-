@@ -1,4 +1,6 @@
-const API = '/api';
+// En local (dev) queda vacío y usa el proxy de Vite (/api → localhost:4000).
+// En producción (Railway) se define VITE_API_URL con la URL pública del backend.
+const API = (import.meta.env.VITE_API_URL || '') + '/api';
 
 async function request(path: string, options: RequestInit = {}) {
   const token = localStorage.getItem('token');

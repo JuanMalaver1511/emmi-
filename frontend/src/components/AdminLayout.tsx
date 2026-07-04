@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Package, Tag, ShoppingCart, Users, LogOut, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
+import emmiLogo from '../assets/emmi.png';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -27,9 +28,7 @@ export default function AdminLayout() {
       <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col">
         <div className="p-6 border-b border-gray-100">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">E</span>
-            </div>
+            <img src={emmiLogo} alt="EMMI" className="h-8 w-auto" />
             <span className="font-bold text-xl tracking-tight">EMMI</span>
           </Link>
           <p className="text-xs text-gray-400 mt-1">Panel de Administración</p>
@@ -58,9 +57,7 @@ export default function AdminLayout() {
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xs">E</span>
-          </div>
+          <img src={emmiLogo} alt="EMMI" className="h-7 w-auto" />
           <span className="font-bold text-lg">Admin</span>
         </Link>
         <div className="flex items-center gap-2">

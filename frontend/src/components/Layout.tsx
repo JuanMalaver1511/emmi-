@@ -3,6 +3,7 @@ import { ShoppingBag, User, Package, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import emmiLogo from '../assets/emmi.png';
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -16,9 +17,7 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">E</span>
-              </div>
+              <img src={emmiLogo} alt="EMMI" className="h-8 w-auto" />
               <span className="font-bold text-xl tracking-tight">EMMI</span>
             </Link>
 
@@ -88,9 +87,7 @@ export default function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">E</span>
-                </div>
+                <img src={emmiLogo} alt="EMMI" className="h-8 w-auto" />
                 <span className="font-bold text-xl tracking-tight">EMMI</span>
               </div>
               <p className="text-sm text-gray-500">Moda con estilo para cada momento.</p>

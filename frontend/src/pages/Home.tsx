@@ -52,7 +52,7 @@ export default function Home() {
             Ver todo <ArrowRight size={14} />
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-gray-200 rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 rounded-2xl overflow-hidden border border-gray-200">
           {categories.map((cat, i) => {
             const images: Record<string, string> = {
               camisetas: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&auto=format&fit=crop',
@@ -65,11 +65,11 @@ export default function Home() {
               <Link
                 key={cat.id}
                 to={`/productos?category=${cat.slug}`}
-                className="group relative bg-white overflow-hidden aspect-[4/5]"
+                className="group relative bg-white overflow-hidden aspect-[4/5] border-r border-b border-gray-200"
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-all duration-700 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${images[cat.slug] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop'})` }}
+                  style={{ backgroundImage: `url(${cat.image || images[cat.slug] || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&auto=format&fit=crop'})` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -135,7 +135,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
           <div className="relative px-8 sm:px-16 py-14 sm:py-20 text-center">
             <span className="text-xs font-medium text-primary-200 uppercase tracking-[0.2em]">Temporada</span>
-            <h2 className="text-3xl sm:text-4xl font-bold mt-2 tracking-tight">Nueva Colección</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mt-2 tracking-tight" color='#ffff'>Nueva Colección</h2>
             <p className="text-primary-100 mt-3 max-w-md mx-auto text-sm sm:text-base">Descubre las últimas tendencias con nuestra colección más reciente.</p>
             <Link to="/productos" className="inline-flex items-center gap-2 mt-6 px-7 py-3 bg-white text-primary-700 rounded-full font-medium hover:bg-gray-100 transition-all hover:shadow-lg">
               Explorar ahora <ArrowRight size={18} />

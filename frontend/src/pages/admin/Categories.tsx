@@ -8,7 +8,7 @@ export default function AdminCategories() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Category | null>(null);
   const [showNew, setShowNew] = useState(false);
-  const [form, setForm] = useState({ name: '', description: '' });
+  const [form, setForm] = useState({ name: '', description: '', image: '' });
 
   const fetchCategories = () => {
     setLoading(true);
@@ -21,7 +21,7 @@ export default function AdminCategories() {
     e.preventDefault();
     try {
       await api.admin.createCategory(form);
-      setForm({ name: '', description: '' });
+      setForm({ name: '', description: '', image: '' });
       setShowNew(false);
       fetchCategories();
     } catch (err: any) { alert(err.message); }
@@ -33,7 +33,7 @@ export default function AdminCategories() {
     try {
       await api.admin.updateCategory(editing.id, form);
       setEditing(null);
-      setForm({ name: '', description: '' });
+      setForm({ name: '', description: '', image: '' });
       fetchCategories();
     } catch (err: any) { alert(err.message); }
   };
@@ -46,14 +46,14 @@ export default function AdminCategories() {
 
   const startEdit = (cat: Category) => {
     setEditing(cat);
-    setForm({ name: cat.name, description: cat.description || '' });
+    setForm({ name: cat.name, description: cat.description || '', image: cat.image || '' });
   };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Categorías</h1>
-        <button onClick={() => { setShowNew(true); setEditing(null); setForm({ name: '', description: '' }); }} className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
+        <button onClick={() => { setShowNew(true); setEditing(null); setForm({ name: '', description: '', image: '' }); }} className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
           <Plus size={16} /> Nueva
         </button>
       </div>
@@ -62,11 +62,12 @@ export default function AdminCategories() {
         <form onSubmit={editing ? handleUpdate : handleCreate} className="bg-gray-50 rounded-xl p-4 mb-6 flex items-end gap-4">
           <div className="flex-1">
             <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Nombre" required className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2" />
-            <input value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Descripción (opcional)" className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
+            <input value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Descripción (opcional)" className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2" />
+            <input value={form.image} onChange={e => setForm({ ...form, image: e.target.value })} placeholder="URL de la imagen (opcional)" className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
           </div>
           <div className="flex gap-2">
             <button type="submit" className="p-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700"><Check size={18} /></button>
-            <button type="button" onClick={() => { setShowNew(false); setEditing(null); }} className="p-2.5 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-100"><X size={18} /></button>
+            <button type="button" onClick={() => { setShowNew(false); setEditing(null); setForm({ name: '', description: '', image: '' }); }} className="p-2.5 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-100"><X size={18} /></button>
           </div>
         </form>
       )}
@@ -77,17 +78,25 @@ export default function AdminCategories() {
             <tr className="border-b border-gray-100 bg-gray-50">
               <th className="text-left px-4 py-3 font-medium text-gray-500">Nombre</th>
               <th className="text-left px-4 py-3 font-medium text-gray-500">Slug</th>
+              <th className="text-left px-4 py-3 font-medium text-gray-500">Imagen</th>
               <th className="text-right px-4 py-3 font-medium text-gray-500">Productos</th>
               <th className="text-right px-4 py-3 font-medium text-gray-500">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {loading ? [...Array(3)].map((_, i) => (
-              <tr key={i} className="border-b border-gray-50"><td colSpan={4}><div className="h-12 bg-gray-50 animate-pulse" /></td></tr>
+              <tr key={i} className="border-b border-gray-50"><td colSpan={5}><div className="h-12 bg-gray-50 animate-pulse" /></td></tr>
             )) : categories.map(cat => (
               <tr key={cat.id} className="border-b border-gray-50 hover:bg-gray-50">
                 <td className="px-4 py-3 font-medium">{cat.name}</td>
                 <td className="px-4 py-3 text-gray-500">{cat.slug}</td>
+                <td className="px-4 py-3">
+                  {cat.image ? (
+                    <img src={cat.image} alt="" className="h-10 w-10 rounded-lg object-cover" />
+                  ) : (
+                    <span className="text-gray-300 text-xs">—</span>
+                  )}
+                </td>
                 <td className="px-4 py-3 text-right">{cat._count?.products || 0}</td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">

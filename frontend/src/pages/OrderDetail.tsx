@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { api } from '../utils/api';
 import { Order } from '../types';
 import { ChevronLeft, Package } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 const statusLabels: Record<string, string> = { PENDING: 'Pendiente', CONFIRMED: 'Confirmado', SHIPPED: 'Enviado', DELIVERED: 'Entregado', CANCELLED: 'Cancelado' };
 
@@ -42,7 +43,7 @@ export default function OrderDetail() {
         <div className="bg-gray-50 rounded-xl p-5">
           <h3 className="font-semibold text-sm mb-3">Información del Pedido</h3>
           <p className="text-sm text-gray-600">Email: {order.shippingEmail}</p>
-          <p className="text-sm text-gray-600">Total: <span className="font-semibold">${Number(order.total).toFixed(2)}</span></p>
+          <p className="text-sm text-gray-600">Total: <span className="font-semibold">{formatCOP(order.total)}</span></p>
         </div>
       </div>
 
@@ -59,7 +60,7 @@ export default function OrderDetail() {
                 {item.size && <span>Talla: {item.size}</span>}
                 {item.color && <span className="ml-2">Color: {item.color}</span>}
               </div>
-              <div className="text-sm font-medium mt-1">${(Number(item.price) * item.quantity).toFixed(2)} <span className="text-gray-400 font-normal">x{item.quantity}</span></div>
+              <div className="text-sm font-medium mt-1">{formatCOP(Number(item.price) * item.quantity)} <span className="text-gray-400 font-normal">x{item.quantity}</span></div>
             </div>
           </div>
         ))}

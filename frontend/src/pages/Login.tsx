@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const { login, user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  if (user) { navigate('/'); return null; }
+  if (user) { navigate(redirect, { replace: true }); return null; }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ export default function Login() {
     setError('');
     try {
       await login(email, password);
-      navigate('/');
+      navigate(redirect, { replace: true });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -42,7 +44,7 @@ export default function Login() {
           </button>
         </form>
         <p className="text-center text-sm text-gray-500 mt-6">
-          ¿No tienes cuenta? <Link to="/registro" className="text-primary-600 font-medium hover:underline">Regístrate</Link>
+          ¿No tienes cuenta? <Link to={`/registro?redirect=${redirect}`} className="text-primary-600 font-medium hover:underline">Regístrate</Link>
         </p>
       </div>
     </div>

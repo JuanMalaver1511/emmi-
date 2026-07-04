@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../../utils/api';
 import { Product } from '../../types';
 import { Plus, Edit, Trash2 } from 'lucide-react';
+import { formatCOP } from '../../utils/format';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -57,7 +58,7 @@ export default function AdminProducts() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-gray-500">{product.category?.name}</td>
-                  <td className="px-4 py-3 text-right font-medium">${Number(product.price).toFixed(2)}</td>
+                  <td className="px-4 py-3 text-right font-medium">{formatCOP(product.price)}</td>
                   <td className="px-4 py-3 text-right">{product.stock}</td>
                   <td className="px-4 py-3 text-center">{product.published ? <span className="text-green-600 font-medium">Sí</span> : <span className="text-gray-400">No</span>}</td>
                   <td className="px-4 py-3 text-right">

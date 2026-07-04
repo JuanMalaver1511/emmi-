@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../utils/api';
 import { ChevronLeft } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart();
@@ -21,7 +22,7 @@ export default function Checkout() {
     notes: '',
   });
 
-  if (!user) { navigate('/login'); return null; }
+  if (!user) { navigate('/login?redirect=/checkout', { replace: true }); return null; }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,16 +74,16 @@ export default function Checkout() {
               {items.map(item => (
                 <div key={item.id} className="flex justify-between text-sm">
                   <span className="text-gray-600 truncate mr-2">{item.product.name} x{item.quantity}</span>
-                  <span className="font-medium">${(Number(item.product.price) * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium">{formatCOP(Number(item.product.price) * item.quantity)}</span>
                 </div>
               ))}
             </div>
             <div className="border-t border-gray-200 pt-3 flex justify-between font-bold">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>{formatCOP(total)}</span>
             </div>
             <button type="submit" disabled={loading} className="w-full mt-6 py-3 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 disabled:bg-gray-300 transition-colors">
-              {loading ? 'Procesando...' : `Pagar $${total.toFixed(2)}`}
+              {loading ? 'Procesando...' : `Pagar ${formatCOP(total)}`}
             </button>
           </div>
         </div>

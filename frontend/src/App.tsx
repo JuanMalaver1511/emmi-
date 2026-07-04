@@ -11,6 +11,8 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/Products';
 import AdminProductForm from './pages/admin/ProductForm';
@@ -32,6 +34,8 @@ export default function App() {
         <Route path="/perfil" element={<Profile />} />
         <Route path="/pedidos" element={<Orders />} />
         <Route path="/pedidos/:id" element={<OrderDetail />} />
+        <Route path="/privacidad" element={<Privacy />} />
+        <Route path="/terminos" element={<Terms />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />

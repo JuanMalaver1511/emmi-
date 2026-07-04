@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { ShoppingBag, Trash2, ArrowRight, ChevronLeft } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 export default function Cart() {
   const { items, count, total, updateItem, removeItem } = useCart();
@@ -36,7 +37,7 @@ export default function Cart() {
                 {item.size && <span>Talla: {item.size}</span>}
                 {item.color && <span className="ml-2">Color: {item.color}</span>}
               </div>
-              <div className="text-sm font-semibold mt-1">${(Number(item.product.price) * item.quantity).toFixed(2)}</div>
+              <div className="text-sm font-semibold mt-1">{formatCOP(Number(item.product.price) * item.quantity)}</div>
               <div className="flex items-center justify-between mt-2">
                 <div className="flex items-center gap-2">
                   <button onClick={() => updateItem(item.id, Math.max(1, item.quantity - 1))} className="w-7 h-7 rounded border border-gray-200 flex items-center justify-center text-xs text-gray-500 hover:bg-gray-50">-</button>
@@ -55,7 +56,7 @@ export default function Cart() {
       <div className="bg-gray-50 rounded-xl p-6">
         <div className="flex items-center justify-between mb-1">
           <span className="text-gray-600">Subtotal</span>
-          <span className="font-semibold">${total.toFixed(2)}</span>
+          <span className="font-semibold">{formatCOP(total)}</span>
         </div>
         <p className="text-xs text-gray-400 mb-4">Los gastos de envío se calculan al finalizar.</p>
         {user ? (
@@ -63,7 +64,7 @@ export default function Cart() {
             Proceder al pago <ArrowRight size={18} />
           </Link>
         ) : (
-          <Link to="/login" className="flex items-center justify-center gap-2 w-full py-3 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors">
+          <Link to="/login?redirect=/checkout" className="flex items-center justify-center gap-2 w-full py-3 bg-primary-600 text-white rounded-xl font-medium hover:bg-primary-700 transition-colors">
             Inicia sesión para comprar <ArrowRight size={18} />
           </Link>
         )}

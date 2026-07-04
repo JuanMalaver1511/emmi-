@@ -147,11 +147,11 @@ export default function AdminProductForm() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className={labelClass}>Precio de venta</label>
-                <input type="number" min="0" step="any" value={form.price || ''} onChange={e => set({ price: Number(e.target.value) })} placeholder="0" className={inputClass} />
+                <input type="number" min="0" step="1" value={form.price || ''} onChange={e => set({ price: Number(e.target.value) })} placeholder="0" className={inputClass} />
               </div>
               <div>
                 <label className={labelClass}>Precio antes <span className="text-gray-400 font-normal">(opcional)</span></label>
-                <input type="number" min="0" step="any" value={form.comparePrice ?? ''} onChange={e => set({ comparePrice: e.target.value ? Number(e.target.value) : undefined })} placeholder="Para mostrar descuento" className={inputClass} />
+                <input type="number" min="0" step="1" value={form.comparePrice ?? ''} onChange={e => set({ comparePrice: e.target.value ? Number(e.target.value) : undefined })} placeholder="Para mostrar descuento" className={inputClass} />
               </div>
               <div>
                 <label className={labelClass}>Stock disponible</label>

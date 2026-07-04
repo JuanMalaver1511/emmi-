@@ -105,15 +105,15 @@ export default function Layout() {
             <div>
               <h3 className="font-semibold text-sm mb-3">Ayuda</h3>
               <ul className="space-y-2 text-sm text-gray-500">
-                <li><Link to="/contacto" className="hover:text-primary-600 transition-colors">Contacto</Link></li>
+                <li><a href="https://wa.me/573046642662" target="_blank" rel="noopener noreferrer" className="hover:text-primary-600 transition-colors">Contacto</a></li>
                 <li><span className="text-gray-400">Envíos y devoluciones</span></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-sm mb-3">Legal</h3>
               <ul className="space-y-2 text-sm text-gray-500">
-                <li><span className="text-gray-400">Privacidad</span></li>
-                <li><span className="text-gray-400">Términos</span></li>
+                <li><Link to="/privacidad" className="hover:text-primary-600 transition-colors">Privacidad</Link></li>
+                <li><Link to="/terminos" className="hover:text-primary-600 transition-colors">Términos</Link></li>
               </ul>
             </div>
           </div>

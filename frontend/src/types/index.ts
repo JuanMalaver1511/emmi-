@@ -17,8 +17,8 @@ export interface Product {
 
 export interface CartItem {
   id: string; quantity: number; size?: string; color?: string;
-  userId: string; productId: string; product: Product;
-  createdAt: string; updatedAt: string;
+  userId?: string; productId: string; product: Product;
+  createdAt?: string; updatedAt?: string;
 }
 
 export interface Order {

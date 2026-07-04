@@ -1,17 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const { register, user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect') || '/';
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  if (user) { navigate('/'); return null; }
+  if (user) { navigate(redirect, { replace: true }); return null; }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function Register() {
     setError('');
     try {
       await register(name, email, password);
-      navigate('/');
+      navigate(redirect, { replace: true });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -44,7 +46,7 @@ export default function Register() {
           </button>
         </form>
         <p className="text-center text-sm text-gray-500 mt-6">
-          ¿Ya tienes cuenta? <Link to="/login" className="text-primary-600 font-medium hover:underline">Inicia sesión</Link>
+          ¿Ya tienes cuenta? <Link to={`/login?redirect=${redirect}`} className="text-primary-600 font-medium hover:underline">Inicia sesión</Link>
         </p>
       </div>
     </div>

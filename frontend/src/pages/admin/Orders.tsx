@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../utils/api';
 import { Order } from '../../types';
+import { formatCOP } from '../../utils/format';
 
 const statuses = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
 const statusLabels: Record<string, string> = { PENDING: 'Pendiente', CONFIRMED: 'Confirmado', SHIPPED: 'Enviado', DELIVERED: 'Entregado', CANCELLED: 'Cancelado' };
@@ -57,7 +58,7 @@ export default function AdminOrders() {
                     <div className="font-medium">{order.user?.name}</div>
                     <div className="text-xs text-gray-400">{order.user?.email}</div>
                   </td>
-                  <td className="px-4 py-3 text-right font-medium">${Number(order.total).toFixed(2)}</td>
+                  <td className="px-4 py-3 text-right font-medium">{formatCOP(order.total)}</td>
                   <td className="px-4 py-3 text-center">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                       order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :

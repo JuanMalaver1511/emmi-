@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../../utils/api';
 import { DashboardStats } from '../../types';
 import { Package, ShoppingCart, Users, DollarSign } from 'lucide-react';
+import { formatCOP } from '../../utils/format';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -24,7 +25,7 @@ export default function AdminDashboard() {
     { label: 'Productos', value: stats.totalProducts, icon: Package, color: 'bg-blue-50 text-blue-600' },
     { label: 'Pedidos', value: stats.totalOrders, icon: ShoppingCart, color: 'bg-purple-50 text-purple-600' },
     { label: 'Usuarios', value: stats.totalUsers, icon: Users, color: 'bg-green-50 text-green-600' },
-    { label: 'Ingresos', value: `$${Number(stats.totalRevenue).toFixed(2)}`, icon: DollarSign, color: 'bg-primary-50 text-primary-600' },
+    { label: 'Ingresos', value: formatCOP(stats.totalRevenue), icon: DollarSign, color: 'bg-primary-50 text-primary-600' },
   ];
 
   return (
@@ -49,7 +50,7 @@ export default function AdminDashboard() {
             {stats.recentOrders.map(order => (
               <div key={order.id} className="flex items-center justify-between text-sm">
                 <span className="text-gray-500 font-mono">#{order.id.slice(0, 8)}</span>
-                <span className="font-medium">${Number(order.total).toFixed(2)}</span>
+                <span className="font-medium">{formatCOP(order.total)}</span>
               </div>
             ))}
           </div>

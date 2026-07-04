@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { api } from '../utils/api';
 import { Order } from '../types';
 import { Package, ChevronRight } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 const statusColors: Record<string, string> = {
   PENDING: 'bg-yellow-100 text-yellow-800',
@@ -52,7 +53,7 @@ export default function Orders() {
                     <span className="font-mono text-sm text-gray-400">#{order.id.slice(0, 8)}</span>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusColors[order.status]}`}>{statusLabels[order.status]}</span>
                   </div>
-                  <p className="text-sm text-gray-600">{order.items.length} {order.items.length === 1 ? 'producto' : 'productos'} · ${Number(order.total).toFixed(2)}</p>
+                  <p className="text-sm text-gray-600">{order.items.length} {order.items.length === 1 ? 'producto' : 'productos'} · {formatCOP(order.total)}</p>
                   <p className="text-xs text-gray-400 mt-1">{new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
                 <ChevronRight size={20} className="text-gray-300 group-hover:text-primary-500 transition-colors" />

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../utils/api';
 import { Product, Category } from '../types';
 import { Star, Filter, X } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -107,13 +108,18 @@ export default function Products() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {products.map(product => (
                   <Link key={product.id} to={`/productos/${product.slug}`} className="group">
-                    <div className="aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-3">
+                    <div className="aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-3 relative">
                       <img src={product.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400'} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
+                        <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-primary-600 text-white text-[11px] font-semibold">
+                          -{Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)}%
+                        </span>
+                      )}
                     </div>
                     <h3 className="font-medium text-sm group-hover:text-primary-600 transition-colors">{product.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="font-semibold">${Number(product.price).toFixed(2)}</span>
-                      {product.comparePrice && <span className="text-sm text-gray-400 line-through">${Number(product.comparePrice).toFixed(2)}</span>}
+                      <span className="font-semibold">{formatCOP(product.price)}</span>
+                      {product.comparePrice && <span className="text-sm text-gray-400 line-through">{formatCOP(product.comparePrice)}</span>}
                     </div>
                     {product.avgRating ? (
                       <div className="flex items-center gap-1 mt-1">

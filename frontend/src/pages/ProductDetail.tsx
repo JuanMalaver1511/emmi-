@@ -5,6 +5,7 @@ import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { Star, ShoppingBag, ChevronLeft, Check } from 'lucide-react';
+import { formatCOP } from '../utils/format';
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -36,7 +37,7 @@ export default function ProductDetail() {
   const handleAdd = async () => {
     if (!product) return;
     try {
-      await addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor });
+      await addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor, product });
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
     } catch {}
@@ -78,8 +79,13 @@ export default function ProductDetail() {
       </Link>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <div className="aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden">
+        <div className="aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden relative">
           <img src={product.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600'} alt={product.name} className="w-full h-full object-cover" />
+          {product.comparePrice && Number(product.comparePrice) > Number(product.price) && (
+            <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary-600 text-white text-sm font-semibold">
+              -{Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)}%
+            </span>
+          )}
         </div>
 
         <div>
@@ -87,8 +93,8 @@ export default function ProductDetail() {
           <h1 className="text-2xl lg:text-3xl font-bold mb-3">{product.name}</h1>
 
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="text-2xl font-bold">${Number(product.price).toFixed(2)}</span>
-            {product.comparePrice && <span className="text-lg text-gray-400 line-through">${Number(product.comparePrice).toFixed(2)}</span>}
+            <span className="text-2xl font-bold">{formatCOP(product.price)}</span>
+            {product.comparePrice && <span className="text-lg text-gray-400 line-through">{formatCOP(product.comparePrice)}</span>}
           </div>
 
           {product.avgRating ? (
@@ -186,11 +192,19 @@ export default function ProductDetail() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {related.map(p => (
               <Link key={p.id} to={`/productos/${p.slug}`} className="group">
-                <div className="aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-2">
+                <div className="aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-2 relative">
                   <img src={p.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400'} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  {p.comparePrice && Number(p.comparePrice) > Number(p.price) && (
+                    <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-primary-600 text-white text-[11px] font-semibold">
+                      -{Math.round((1 - Number(p.price) / Number(p.comparePrice)) * 100)}%
+                    </span>
+                  )}
                 </div>
                 <h4 className="font-medium text-sm">{p.name}</h4>
-                <span className="font-semibold text-sm">${Number(p.price).toFixed(2)}</span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="font-semibold text-sm">{formatCOP(p.price)}</span>
+                  {p.comparePrice && <span className="text-xs text-gray-400 line-through">{formatCOP(p.comparePrice)}</span>}
+                </div>
               </Link>
             ))}
           </div>

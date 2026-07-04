@@ -7,6 +7,17 @@ import { useAuth } from '../context/AuthContext';
 import { Star, ShoppingBag, ChevronLeft, Check } from 'lucide-react';
 import { formatCOP } from '../utils/format';
 
+const COLOR_PRESETS: { name: string; hex: string }[] = [
+  { name: 'Negro', hex: '#111827' }, { name: 'Blanco', hex: '#ffffff' },
+  { name: 'Gris', hex: '#9ca3af' }, { name: 'Rojo', hex: '#dc2626' },
+  { name: 'Azul', hex: '#2563eb' }, { name: 'Verde', hex: '#16a34a' },
+  { name: 'Beige', hex: '#d6c7a1' }, { name: 'Marrón', hex: '#92400e' },
+  { name: 'Rosa', hex: '#ec4899' }, { name: 'Amarillo', hex: '#eab308' },
+  { name: 'Celeste', hex: '#7dd3fc' }, { name: 'Burdeos', hex: '#7f1d1d' },
+];
+const colorHex = (name: string) =>
+  COLOR_PRESETS.find(c => c.name.toLowerCase() === name.toLowerCase())?.hex || '#d1d5db';
+
 export default function ProductDetail() {
   const { slug } = useParams();
   const { addItem } = useCart();
@@ -138,10 +149,18 @@ export default function ProductDetail() {
             {product.colors.length > 0 && (
               <div>
                 <label className="text-sm font-medium block mb-2">Color</label>
-                <div className="flex gap-2">
-                  {product.colors.map(c => (
-                    <button key={c} onClick={() => setSelectedColor(c)} className={`px-4 py-2 text-sm rounded-lg border transition-colors ${selectedColor === c ? 'border-primary-600 bg-primary-50 text-primary-700' : 'border-gray-200 text-gray-600 hover:border-gray-300'}`}>{c}</button>
-                  ))}
+                <div className="flex gap-3">
+                  {product.colors.map(c => {
+                    const hex = colorHex(c);
+                    const isSelected = selectedColor === c;
+                    return (
+                      <button key={c} onClick={() => setSelectedColor(c)} className="flex flex-col items-center gap-1 group">
+                        <div className={`w-7 h-7 rounded-full transition-all ${isSelected ? 'ring-2 ring-primary-600 ring-offset-2 scale-110' : 'ring-1 ring-gray-200 group-hover:ring-gray-400'}`}
+                          style={{ backgroundColor: hex, border: hex === '#ffffff' ? '1px solid #e5e7eb' : 'none' }} />
+                        <span className={`text-[10px] ${isSelected ? 'text-primary-600 font-medium' : 'text-gray-400'}`}>{c}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}

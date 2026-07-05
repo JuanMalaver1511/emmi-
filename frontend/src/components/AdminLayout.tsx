@@ -28,8 +28,7 @@ export default function AdminLayout() {
       <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col">
         <div className="p-6 border-b border-gray-100">
           <Link to="/" className="flex items-center gap-2">
-            <img src={emmiLogo} alt="EMMI" className="h-8 w-auto" />
-            <span className="font-bold text-xl tracking-tight">EMMI</span>
+            <img src={emmiLogo} alt="EMMI" className="h-10 w-auto" />
           </Link>
           <p className="text-xs text-gray-400 mt-1">Panel de Administración</p>
         </div>
@@ -57,8 +56,7 @@ export default function AdminLayout() {
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 px-4 h-14 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={emmiLogo} alt="EMMI" className="h-7 w-auto" />
-          <span className="font-bold text-lg">Admin</span>
+          <img src={emmiLogo} alt="EMMI" className="h-9 w-auto" />
         </Link>
         <div className="flex items-center gap-2">
           <Link to="/" className="p-2 text-gray-500"><ArrowLeft size={18} /></Link>

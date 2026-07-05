@@ -10,6 +10,7 @@ interface GuestItem {
   quantity: number;
   size?: string;
   color?: string;
+  wholesale?: boolean;
   product: Product;
 }
 
@@ -18,7 +19,7 @@ interface CartContextType {
   loading: boolean;
   count: number;
   total: number;
-  addItem: (data: { productId: string; quantity?: number; size?: string; color?: string; product?: Product }) => Promise<void>;
+  addItem: (data: { productId: string; quantity?: number; size?: string; color?: string; wholesale?: boolean; product?: Product }) => Promise<void>;
   updateItem: (id: string, quantity: number) => Promise<void>;
   removeItem: (id: string) => Promise<void>;
   clearCart: () => Promise<void>;
@@ -41,6 +42,7 @@ function loadGuestCart(): CartItem[] {
       quantity: g.quantity,
       size: g.size,
       color: g.color,
+      wholesale: g.wholesale,
       product: g.product,
     }));
   } catch {
@@ -54,6 +56,7 @@ function saveGuestCart(items: CartItem[]) {
     quantity: i.quantity,
     size: i.size,
     color: i.color,
+    wholesale: i.wholesale,
     product: i.product,
   }));
   localStorage.setItem(GUEST_CART_KEY, JSON.stringify(data));
@@ -79,6 +82,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             quantity: item.quantity,
             size: item.size,
             color: item.color,
+            wholesale: item.wholesale,
           });
         } catch {
           // skip items that fail
@@ -122,9 +126,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const count = items.reduce((a, i) => a + i.quantity, 0);
-  const total = items.reduce((a, i) => a + Number(i.product.price) * i.quantity, 0);
+  const priceFor = (item: CartItem) =>
+    item.wholesale && item.product.wholesalePrice ? Number(item.product.wholesalePrice) : Number(item.product.price);
+  const total = items.reduce((a, i) => a + priceFor(i) * i.quantity, 0);
 
-  const addItem = async (data: { productId: string; quantity?: number; size?: string; color?: string; product?: Product }) => {
+  const addItem = async (data: { productId: string; quantity?: number; size?: string; color?: string; wholesale?: boolean; product?: Product }) => {
     if (user) {
       const item = await api.cart.add(data);
       setItems(prev => {
@@ -136,11 +142,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const product = data.product!;
       setItems(prev => {
         const existing = prev.find(
-          i => i.productId === data.productId && i.size === (data.size ?? '') && i.color === (data.color ?? '')
+          i => i.productId === data.productId && i.size === (data.size ?? '') && i.color === (data.color ?? '') && i.wholesale === (data.wholesale ?? false)
         );
         if (existing) {
           const updated = prev.map(i =>
-            i.productId === data.productId && i.size === (data.size ?? '') && i.color === (data.color ?? '')
+            i.productId === data.productId && i.size === (data.size ?? '') && i.color === (data.color ?? '') && i.wholesale === (data.wholesale ?? false)
               ? { ...i, quantity: i.quantity + (data.quantity ?? 1) }
               : i
           );
@@ -153,6 +159,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           quantity: data.quantity ?? 1,
           size: data.size,
           color: data.color,
+          wholesale: data.wholesale,
           product,
         };
         const updated = [newItem, ...prev];

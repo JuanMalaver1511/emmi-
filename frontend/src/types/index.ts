@@ -9,14 +9,15 @@ export interface Category {
 
 export interface Product {
   id: string; name: string; slug: string; description: string; price: number;
-  comparePrice?: number; images: string[]; sizes: string[]; colors: string[];
+  comparePrice?: number; wholesalePrice?: number; wholesaleMinQty?: number;
+  images: string[]; sizes: string[]; colors: string[];
   stock: number; featured: boolean; published: boolean; categoryId: string;
   category?: Category; avgRating?: number; reviews?: Review[];
   createdAt: string; updatedAt: string;
 }
 
 export interface CartItem {
-  id: string; quantity: number; size?: string; color?: string;
+  id: string; quantity: number; size?: string; color?: string; wholesale?: boolean;
   userId?: string; productId: string; product: Product;
   createdAt?: string; updatedAt?: string;
 }

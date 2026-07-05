@@ -30,6 +30,7 @@ export default function AdminProductForm() {
   const [customColor, setCustomColor] = useState('');
   const [form, setForm] = useState({
     name: '', description: '', price: 0, comparePrice: undefined as number | undefined,
+    wholesalePrice: undefined as number | undefined, wholesaleMinQty: 6,
     images: [] as string[], sizes: [] as string[], colors: [] as string[],
     stock: 0, featured: false, published: true, categoryId: '',
   });
@@ -44,6 +45,8 @@ export default function AdminProductForm() {
         if (product) setForm({
           name: product.name, description: product.description, price: Number(product.price),
           comparePrice: product.comparePrice ? Number(product.comparePrice) : undefined,
+          wholesalePrice: product.wholesalePrice ? Number(product.wholesalePrice) : undefined,
+          wholesaleMinQty: product.wholesaleMinQty ?? 6,
           images: product.images, sizes: product.sizes, colors: product.colors,
           stock: product.stock, featured: product.featured, published: product.published,
           categoryId: product.categoryId,
@@ -152,6 +155,14 @@ export default function AdminProductForm() {
               <div>
                 <label className={labelClass}>Precio antes <span className="text-gray-400 font-normal">(opcional)</span></label>
                 <input type="number" min="0" step="1" value={form.comparePrice ?? ''} onChange={e => set({ comparePrice: e.target.value ? Number(e.target.value) : undefined })} placeholder="Para mostrar descuento" className={inputClass} />
+              </div>
+              <div>
+                <label className={labelClass}>Precio por mayor <span className="text-gray-400 font-normal">(opcional)</span></label>
+                <input type="number" min="0" step="1" value={form.wholesalePrice ?? ''} onChange={e => set({ wholesalePrice: e.target.value ? Number(e.target.value) : undefined })} placeholder="Precio al por mayor" className={inputClass} />
+              </div>
+              <div>
+                <label className={labelClass}>Cant. mínima por mayor</label>
+                <input type="number" min="1" value={form.wholesaleMinQty || ''} onChange={e => set({ wholesaleMinQty: Number(e.target.value) || 6 })} placeholder="6" className={inputClass} />
               </div>
               <div>
                 <label className={labelClass}>Stock disponible</label>

@@ -35,7 +35,7 @@ export const api = {
   },
   cart: {
     list: () => request('/cart'),
-    add: (data: { productId: string; quantity?: number; size?: string; color?: string }) => request('/cart', { method: 'POST', body: JSON.stringify(data) }),
+    add: (data: { productId: string; quantity?: number; size?: string; color?: string; wholesale?: boolean }) => request('/cart', { method: 'POST', body: JSON.stringify(data) }),
     update: (id: string, quantity: number) => request(`/cart/${id}`, { method: 'PUT', body: JSON.stringify({ quantity }) }),
     remove: (id: string) => request(`/cart/${id}`, { method: 'DELETE' }),
     clear: () => request('/cart', { method: 'DELETE' }),
@@ -43,7 +43,7 @@ export const api = {
   orders: {
     list: () => request('/orders'),
     get: (id: string) => request(`/orders/${id}`),
-    create: (data: any) => request('/orders', { method: 'POST', body: JSON.stringify(data) }),
+    create: (data: { shippingName: string; shippingEmail: string; shippingPhone?: string; shippingAddress: string; shippingCity: string; shippingState: string; shippingZip: string; notes?: string; items: { productId: string; quantity: number; size?: string; color?: string; wholesale?: boolean }[] }) => request('/orders', { method: 'POST', body: JSON.stringify(data) }),
   },
   reviews: {
     create: (productId: string, data: { rating: number; comment?: string }) => request(`/reviews/${productId}`, { method: 'POST', body: JSON.stringify(data) }),

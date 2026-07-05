@@ -16,6 +16,8 @@ export const productSchema = z.object({
   description: z.string().min(10),
   price: z.number().positive(),
   comparePrice: z.number().positive().optional(),
+  wholesalePrice: z.number().positive().optional(),
+  wholesaleMinQty: z.number().int().positive().default(6),
   images: z.array(z.string()).default([]),
   sizes: z.array(z.string()).default([]),
   colors: z.array(z.string()).default([]),
@@ -36,6 +38,7 @@ export const cartItemSchema = z.object({
   quantity: z.number().int().positive().default(1),
   size: z.string().optional(),
   color: z.string().optional(),
+  wholesale: z.boolean().default(false),
 });
 
 export const orderSchema = z.object({
@@ -52,6 +55,7 @@ export const orderSchema = z.object({
     quantity: z.number().int().positive(),
     size: z.string().optional(),
     color: z.string().optional(),
+    wholesale: z.boolean().default(false),
   })),
 });
 

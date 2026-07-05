@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { ShoppingBag, Trash2, ArrowRight, ChevronLeft } from 'lucide-react';
+import { ShoppingBag, Trash2, ArrowRight, ChevronLeft, Package } from 'lucide-react';
 import { formatCOP } from '../utils/format';
 
 export default function Cart() {
   const { items, count, total, updateItem, removeItem } = useCart();
   const { user } = useAuth();
+
+  const unitPrice = (item: typeof items[0]) =>
+    item.wholesale && item.product.wholesalePrice ? Number(item.product.wholesalePrice) : Number(item.product.price);
 
   if (count === 0) return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
@@ -31,13 +34,19 @@ export default function Cart() {
             <div className="w-20 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
               <img src={item.product.images[0] || 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=200'} alt={item.product.name} className="w-full h-full object-cover" />
             </div>
-            <div className="flex-1 min-w-0">
-              <Link to={`/productos/${item.product.slug}`} className="font-medium text-sm hover:text-primary-600 transition-colors">{item.product.name}</Link>
-              <div className="text-xs text-gray-400 mt-0.5">
-                {item.size && <span>Talla: {item.size}</span>}
-                {item.color && <span className="ml-2">Color: {item.color}</span>}
-              </div>
-              <div className="text-sm font-semibold mt-1">{formatCOP(Number(item.product.price) * item.quantity)}</div>
+              <div className="flex-1 min-w-0">
+                <Link to={`/productos/${item.product.slug}`} className="font-medium text-sm hover:text-primary-600 transition-colors">{item.product.name}</Link>
+                <div className="text-xs text-gray-400 mt-0.5">
+                  {item.size && <span>Talla: {item.size}</span>}
+                  {item.color && <span className="ml-2">Color: {item.color}</span>}
+                </div>
+                <div className="flex items-center gap-2 mt-1">
+                  {item.wholesale && (
+                    <span className="text-[10px] font-medium text-primary-700 bg-primary-50 px-1.5 py-0.5 rounded flex items-center gap-0.5"><Package size={10} /> Por mayor</span>
+                  )}
+                  <span className="text-xs text-gray-400">{formatCOP(unitPrice(item))} c/u</span>
+                </div>
+                <div className="text-sm font-semibold mt-1">{formatCOP(unitPrice(item) * item.quantity)}</div>
               <div className="flex items-center justify-between mt-2">
                 <div className="flex items-center gap-2">
                   <button onClick={() => updateItem(item.id, Math.max(1, item.quantity - 1))} className="w-7 h-7 rounded border border-gray-200 flex items-center justify-center text-xs text-gray-500 hover:bg-gray-50">-</button>

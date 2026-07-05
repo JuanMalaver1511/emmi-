@@ -21,13 +21,17 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response) => {
       }
     }
 
-    const orderItems = data.items.map(item => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      size: item.size ?? '',
-      color: item.color ?? '',
-      price: productMap.get(item.productId)!.price,
-    }));
+    const orderItems = data.items.map(item => {
+      const product = productMap.get(item.productId)!;
+      const price = item.wholesale && product.wholesalePrice ? product.wholesalePrice : product.price;
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        size: item.size ?? '',
+        color: item.color ?? '',
+        price,
+      };
+    });
 
     const total = orderItems.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
 

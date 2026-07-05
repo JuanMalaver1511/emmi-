@@ -4,7 +4,7 @@ import { api } from '../utils/api';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { Star, ShoppingBag, ChevronLeft, Check } from 'lucide-react';
+import { Star, ShoppingBag, ChevronLeft, Check, Package } from 'lucide-react';
 import { formatCOP } from '../utils/format';
 
 const COLOR_PRESETS: { name: string; hex: string }[] = [
@@ -33,6 +33,7 @@ export default function ProductDetail() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState('');
   const [error, setError] = useState('');
+  const [wholesale, setWholesale] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -43,6 +44,7 @@ export default function ProductDetail() {
       setSelectedImage(0);
       setSelectedSize(d.product.sizes?.[0] || '');
       setSelectedColor(d.product.colors?.[0] || '');
+      setWholesale(false);
       setLoading(false);
     }).catch(() => setLoading(false));
   }, [slug]);
@@ -50,7 +52,7 @@ export default function ProductDetail() {
   const handleAdd = async () => {
     if (!product) return;
     try {
-      await addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor, product });
+      await addItem({ productId: product.id, quantity, size: selectedSize, color: selectedColor, wholesale, product });
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
     } catch {}
@@ -121,8 +123,12 @@ export default function ProductDetail() {
           <h1 className="text-2xl lg:text-3xl font-bold mb-3">{product.name}</h1>
 
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="text-2xl font-bold">{formatCOP(product.price)}</span>
-            {product.comparePrice && <span className="text-lg text-gray-400 line-through">{formatCOP(product.comparePrice)}</span>}
+            <span className="text-2xl font-bold">{formatCOP(wholesale && product.wholesalePrice ? product.wholesalePrice : product.price)}</span>
+            {wholesale && product.wholesalePrice ? (
+              <span className="text-lg text-gray-400 line-through">{formatCOP(product.price)}</span>
+            ) : product.comparePrice ? (
+              <span className="text-lg text-gray-400 line-through">{formatCOP(product.comparePrice)}</span>
+            ) : null}
           </div>
 
           {product.avgRating ? (
@@ -133,6 +139,30 @@ export default function ProductDetail() {
           ) : null}
 
           <p className="text-gray-600 leading-relaxed mb-6">{product.description}</p>
+
+          {product.wholesalePrice && (
+            <div className="mb-6">
+              <div className="bg-gray-50 rounded-xl p-1 flex">
+                <button
+                  onClick={() => { setWholesale(false); setQuantity(1); }}
+                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${!wholesale ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  Venta al detal
+                </button>
+                <button
+                  onClick={() => { setWholesale(true); setQuantity(product.wholesaleMinQty || 6); }}
+                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-1.5 ${wholesale ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  <Package size={14} /> Por mayor
+                </button>
+              </div>
+              {wholesale && (
+                <p className="text-xs text-primary-600 mt-2">
+                  Mínimo {product.wholesaleMinQty || 6} unidades por producto. Precio especial por volumen.
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="space-y-4 mb-6">
             {product.sizes.length > 0 && product.sizes[0] !== 'Única' && (
@@ -168,11 +198,14 @@ export default function ProductDetail() {
             <div>
               <label className="text-sm font-medium block mb-2">Cantidad</label>
               <div className="flex items-center gap-3">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50">-</button>
+                <button onClick={() => setQuantity(Math.max(wholesale ? (product.wholesaleMinQty || 6) : 1, quantity - 1))} className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50">-</button>
                 <span className="w-8 text-center font-medium">{quantity}</span>
                 <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} className="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50">+</button>
                 <span className="text-sm text-gray-400">{product.stock} disponibles</span>
               </div>
+              {wholesale && (
+                <p className="text-xs text-gray-400 mt-1">Mínimo {product.wholesaleMinQty || 6} unidades</p>
+              )}
             </div>
           </div>
 

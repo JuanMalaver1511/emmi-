@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../utils/api';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Package } from 'lucide-react';
 import { formatCOP } from '../utils/format';
 
 export default function Checkout() {
@@ -11,6 +11,9 @@ export default function Checkout() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const unitPrice = (item: typeof items[0]) =>
+    item.wholesale && item.product.wholesalePrice ? Number(item.product.wholesalePrice) : Number(item.product.price);
   const [form, setForm] = useState({
     shippingName: user?.name || '',
     shippingEmail: user?.email || '',
@@ -30,7 +33,7 @@ export default function Checkout() {
     try {
       const order = await api.orders.create({
         ...form,
-        items: items.map(i => ({ productId: i.productId, quantity: i.quantity, size: i.size, color: i.color })),
+        items: items.map(i => ({ productId: i.productId, quantity: i.quantity, size: i.size, color: i.color, wholesale: i.wholesale })),
       });
       await clearCart();
       navigate(`/pedidos/${order.id}`);
@@ -72,9 +75,14 @@ export default function Checkout() {
             <h2 className="font-semibold mb-4">Resumen</h2>
             <div className="space-y-3 mb-4">
               {items.map(item => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span className="text-gray-600 truncate mr-2">{item.product.name} x{item.quantity}</span>
-                  <span className="font-medium">{formatCOP(Number(item.product.price) * item.quantity)}</span>
+                <div key={item.id}>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600 truncate mr-2">{item.product.name} x{item.quantity}</span>
+                    <span className="font-medium">{formatCOP(unitPrice(item) * item.quantity)}</span>
+                  </div>
+                  {item.wholesale && (
+                    <span className="text-[10px] text-primary-600 font-medium flex items-center gap-0.5 mt-0.5"><Package size={10} /> Por mayor</span>
+                  )}
                 </div>
               ))}
             </div>

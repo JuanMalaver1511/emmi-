@@ -28,7 +28,7 @@ router.post('/', async (req: AuthRequest, res: Response) => {
     if (!product) return res.status(404).json({ error: 'Product not found' });
 
     const existing = await prisma.cartItem.findUnique({
-      where: { userId_productId_size_color: { userId: req.user!.id, productId: data.productId, size: data.size ?? '', color: data.color ?? '' } },
+      where: { userId_productId_size_color_wholesale: { userId: req.user!.id, productId: data.productId, size: data.size ?? '', color: data.color ?? '', wholesale: data.wholesale } },
     });
 
     if (existing) {

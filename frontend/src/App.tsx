@@ -13,6 +13,8 @@ import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import About from './pages/About';
+import Shipping from './pages/Shipping';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminProducts from './pages/admin/Products';
 import AdminProductForm from './pages/admin/ProductForm';
@@ -36,6 +38,8 @@ export default function App() {
         <Route path="/pedidos/:id" element={<OrderDetail />} />
         <Route path="/privacidad" element={<Privacy />} />
         <Route path="/terminos" element={<Terms />} />
+        <Route path="/nosotros" element={<About />} />
+        <Route path="/envios-y-devoluciones" element={<Shipping />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />

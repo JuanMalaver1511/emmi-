@@ -17,7 +17,7 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/">
-              <img src={EEMILogo} alt="EEMI" className="h-10 w-auto" />
+              <img src={EEMILogo} alt="EEMI" className="h-14 w-auto" />
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
@@ -86,7 +86,7 @@ export default function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <img src={EEMILogo} alt="EEMI" className="h-10 w-auto" />
+                <img src={EEMILogo} alt="EEMI" className="h-14 w-auto" />
               </div>
               <p className="text-sm text-gray-500">Moda con estilo para cada momento.</p>
             </div>
@@ -95,13 +95,14 @@ export default function Layout() {
               <ul className="space-y-2 text-sm text-gray-500">
                 <li><Link to="/productos" className="hover:text-primary-600 transition-colors">Todos los productos</Link></li>
                 <li><Link to="/productos?featured=true" className="hover:text-primary-600 transition-colors">Destacados</Link></li>
+                <li><Link to="/nosotros" className="hover:text-primary-600 transition-colors">Nosotros</Link></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-sm mb-3">Ayuda</h3>
               <ul className="space-y-2 text-sm text-gray-500">
                 <li><a href="https://wa.me/573046642662" target="_blank" rel="noopener noreferrer" className="hover:text-primary-600 transition-colors">Contacto</a></li>
-                <li><span className="text-gray-400">Envíos y devoluciones</span></li>
+                <li><Link to="/envios-y-devoluciones" className="hover:text-primary-600 transition-colors">Envíos y devoluciones</Link></li>
               </ul>
             </div>
             <div>

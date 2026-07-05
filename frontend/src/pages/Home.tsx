@@ -131,14 +131,19 @@ export default function Home() {
 
       {/* Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="relative bg-gradient-to-r from-primary-600 to-primary-800 rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
-          <div className="relative px-8 sm:px-16 py-14 sm:py-20 text-center">
-            <span className="text-xs font-medium text-primary-200 uppercase tracking-[0.2em]">Temporada</span>
-            <h2 className="text-3xl sm:text-4xl font-bold mt-2 tracking-tight" color='#ffff'>Nueva Colección</h2>
-            <p className="text-primary-100 mt-3 max-w-md mx-auto text-sm sm:text-base">Descubre las últimas tendencias con nuestra colección más reciente.</p>
-            <Link to="/productos" className="inline-flex items-center gap-2 mt-6 px-7 py-3 bg-white text-primary-700 rounded-full font-medium hover:bg-gray-100 transition-all hover:shadow-lg">
-              Explorar ahora <ArrowRight size={18} />
+        <div className="relative bg-neutral-900 rounded-2xl overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-neutral-900 via-neutral-900/80 to-neutral-900/40" />
+          <div className="relative px-8 sm:px-16 lg:px-20 py-16 sm:py-24 lg:py-28">
+            <span className="text-xs font-medium text-neutral-400 uppercase tracking-[0.25em]">Temporada</span>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light mt-3 tracking-tight text-white leading-[1.1]">
+              Nueva<br />Colección
+            </h2>
+            <p className="text-neutral-300 mt-4 max-w-md text-sm sm:text-base leading-relaxed">
+              Descubre las últimas tendencias con nuestra colección más reciente.
+            </p>
+            <Link to="/productos" className="inline-flex items-center gap-2 mt-8 px-8 py-3 border border-white/30 text-white rounded-full text-sm font-medium hover:bg-white hover:text-neutral-900 transition-all duration-300">
+              Explorar ahora <ArrowRight size={16} />
             </Link>
           </div>
         </div>

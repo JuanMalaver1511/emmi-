@@ -2,7 +2,7 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AuthRequest } from '../types/index.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'emmi-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'EEMI-secret-key';
 
 export const authenticate = (req: AuthRequest, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.replace('Bearer ', '');

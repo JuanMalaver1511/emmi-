@@ -12,7 +12,7 @@ export default function Terms() {
 
       <div className="prose prose-sm max-w-none text-gray-600 space-y-6">
         <p>
-          Al utilizar la tienda en línea de EMMI, aceptas los siguientes términos y condiciones. Te recomendamos leerlos detenidamente antes de realizar cualquier compra.
+          Al utilizar la tienda en línea de EEMI, aceptas los siguientes términos y condiciones. Te recomendamos leerlos detenidamente antes de realizar cualquier compra.
         </p>
 
         <h2 className="text-lg font-semibold text-gray-900">1. Productos y Precios</h2>
@@ -37,7 +37,7 @@ export default function Terms() {
 
         <h2 className="text-lg font-semibold text-gray-900">5. Propiedad Intelectual</h2>
         <p>
-          Todos los contenidos de esta tienda, incluyendo imágenes, textos y diseño, son propiedad de EMMI y no pueden ser utilizados sin autorización.
+          Todos los contenidos de esta tienda, incluyendo imágenes, textos y diseño, son propiedad de EEMI y no pueden ser utilizados sin autorización.
         </p>
 
         <h2 className="text-lg font-semibold text-gray-900">6. Contacto</h2>

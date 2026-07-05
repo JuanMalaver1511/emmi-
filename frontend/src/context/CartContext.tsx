@@ -3,7 +3,7 @@ import { CartItem, Product, User } from '../types';
 import { api } from '../utils/api';
 import { useAuth } from './AuthContext';
 
-const GUEST_CART_KEY = 'emmi_guest_cart';
+const GUEST_CART_KEY = 'EEMI_guest_cart';
 
 interface GuestItem {
   productId: string;

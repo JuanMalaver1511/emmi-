@@ -3,7 +3,7 @@ import { ShoppingBag, User, Package, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import emmiLogo from '../assets/emmi.png';
+import EEMILogo from '../assets/EEMI.png';
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -17,7 +17,7 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/">
-              <img src={emmiLogo} alt="EMMI" className="h-10 w-auto" />
+              <img src={EEMILogo} alt="EEMI" className="h-10 w-auto" />
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
@@ -86,7 +86,7 @@ export default function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="mb-4">
-                <img src={emmiLogo} alt="EMMI" className="h-10 w-auto" />
+                <img src={EEMILogo} alt="EEMI" className="h-10 w-auto" />
               </div>
               <p className="text-sm text-gray-500">Moda con estilo para cada momento.</p>
             </div>
@@ -113,7 +113,7 @@ export default function Layout() {
             </div>
           </div>
           <div className="border-t border-gray-200 mt-8 pt-8 text-center text-sm text-gray-400">
-            &copy; 2024 EMMI. Todos los derechos reservados.
+            &copy; 2024 EEMI. Todos los derechos reservados.
           </div>
         </div>
       </footer>

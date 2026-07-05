@@ -7,7 +7,7 @@ import { authenticate } from '../middleware/auth.js';
 import { AuthRequest } from '../types/index.js';
 
 const router = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'emmi-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'EEMI-secret-key';
 
 router.post('/register', async (req, res: Response) => {
   try {

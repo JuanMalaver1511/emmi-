@@ -12,7 +12,7 @@ export default function Privacy() {
 
       <div className="prose prose-sm max-w-none text-gray-600 space-y-6">
         <p>
-          En EMMI, nos tomamos muy en serio la privacidad de nuestros usuarios. Esta política describe cómo recopilamos, usamos y protegemos tu información personal.
+          En EEMI, nos tomamos muy en serio la privacidad de nuestros usuarios. Esta política describe cómo recopilamos, usamos y protegemos tu información personal.
         </p>
 
         <h2 className="text-lg font-semibold text-gray-900">1. Información que Recopilamos</h2>
